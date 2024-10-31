@@ -1,43 +1,63 @@
+// src/store/gameSlice.js
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
+  // Core game progress
   currentPuzzleId: 1,
+  puzzlesCompleted: {},
   score: 0,
+
+  // Game environment
+  fogLevel: 50,
+
+  // Player inventory/achievements
   inventory: [],
-  puzzleHistory: {},
-  attempts: 0,
-  hintsUsed: 0,
+  unlockedHints: [],
+
+  // Game status
+  isGameStarted: false,
+  isGameComplete: false,
 }
 
-export const gameSlice = createSlice({
+const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    incrementPuzzle: (state) => {
-      state.currentPuzzleId += 1
-      state.attempts = 0
-      state.hintsUsed = 0
+    // Puzzle progress
+    completePuzzle: (state, action) => {
+      const { puzzleId, timeCompleted, hintsUsed } = action.payload
+      state.puzzlesCompleted[puzzleId] = {
+        timeCompleted,
+        hintsUsed,
+      }
+      state.currentPuzzleId++
     },
-    addScore: (state, action) => {
-      state.score += action.payload
+
+    // Fog mechanics
+    updateFogLevel: (state, action) => {
+      state.fogLevel = Math.max(0, Math.min(100, action.payload))
     },
+
+    // Inventory management
     addToInventory: (state, action) => {
       state.inventory.push(action.payload)
     },
-    incrementAttempts: (state) => {
-      state.attempts += 1
+
+    // Game state
+    startGame: (state) => {
+      state.isGameStarted = true
     },
-    useHint: (state) => {
-      state.hintsUsed += 1
+
+    completeGame: (state) => {
+      state.isGameComplete = true
     },
-    recordPuzzleCompletion: (state, action) => {
-      state.puzzleHistory[state.currentPuzzleId] = {
-        completed: true,
-        attempts: state.attempts,
-        hintsUsed: state.hintsUsed,
-        timeCompleted: Date.now(),
-      }
+
+    // Score updates
+    updateScore: (state, action) => {
+      state.score += action.payload
     },
+
+    // Reset game
     resetGame: (state) => {
       return initialState
     },
@@ -45,12 +65,12 @@ export const gameSlice = createSlice({
 })
 
 export const {
-  incrementPuzzle,
-  addScore,
+  completePuzzle,
+  updateFogLevel,
   addToInventory,
-  incrementAttempts,
-  useHint,
-  recordPuzzleCompletion,
+  startGame,
+  completeGame,
+  updateScore,
   resetGame,
 } = gameSlice.actions
 

@@ -1,5 +1,3 @@
-// src/lib/puzzles.js
-
 // Puzzle Types
 const PuzzleType = {
   RIDDLE: 'RIDDLE',
