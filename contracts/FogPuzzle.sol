@@ -11,17 +11,24 @@ contract FogPuzzle {
 
     event PuzzleSolved(address player, uint256 puzzleId);
     event FogLevelChanged(uint256 newLevel);
+    event PuzzleAdded(uint256 puzzleId);
 
     constructor(uint256 _fogLevel) {
         fogLevel = _fogLevel;
     }
 
-    function verifyPuzzleSolution(uint256 puzzleId, string memory solution) public {
-        require(puzzleId == playerProgress[msg.sender] + 1, 'Wrong puzzle sequence');
-        require(keccak256(abi.encodePacked(solution)) == puzzleHashes[puzzleId], 'Incorrect Solution');
+    function setPuzzleSolution(uint256 _puzzleId, string memory _solution) public {
+        puzzleHashes[_puzzleId] = keccak256(abi.encodePacked(_solution));
 
-        playerProgress[msg.sender] = puzzleId;
-        emit PuzzleSolved(msg.sender, puzzleId);
+        emit PuzzleAdded(_puzzleId);
+    }
+
+    function verifyPuzzleSolution(uint256 _puzzleId, string memory _solution) public {
+        require(_puzzleId == playerProgress[msg.sender] + 1, 'Wrong puzzle sequence');
+        require(keccak256(abi.encodePacked(_solution)) == puzzleHashes[_puzzleId], 'Incorrect solution');
+
+        playerProgress[msg.sender] = _puzzleId;
+        emit PuzzleSolved(msg.sender, _puzzleId);
     }
 
 }

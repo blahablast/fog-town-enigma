@@ -1,5 +1,5 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit'
-import { FOG_LEVELS, FOG_EFFECTS } from '../lib/constants'
+import { FOG_LEVELS, FOG_EFFECTS } from '../../lib/constants'
 
 const initialState = {
   level: FOG_LEVELS.DEFAULT,
