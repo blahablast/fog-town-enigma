@@ -1,4 +1,3 @@
-// src/components/Game.client.js
 'use client'
 
 import { useState, useEffect } from 'react'
