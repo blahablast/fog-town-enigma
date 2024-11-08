@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   generatePiece,
-  movePiece,
-  rotatePiece,
+  movePiece as calculateNewPosition,
+  rotatePiece as rotatePieceUtil,
   checkCollision,
   clearLines
 } from '@/lib/tetrisUtils'
@@ -26,7 +26,7 @@ const boardSlice = createSlice({
 
     movePiece: (state, action) => {
       const direction = action.payload
-      const newPosition = movePiece(state.currentPiece, direction)
+      const newPosition = calculateNewPosition(state.currentPiece, direction)
 
       if (!checkCollision(state.board, state.currentPiece, newPosition)) {
         state.piecePosition = newPosition
@@ -34,14 +34,14 @@ const boardSlice = createSlice({
     },
 
     rotatePiece: (state) => {
-      const rotatedPiece = rotatePiece(state.currentPiece)
+      const rotatedPiece = rotatePieceUtil(state.currentPiece)
       if (!checkCollision(state.board, state.currentPiece, newPosition)) {
         state.currentPiece = rotatedPiece
       }
     },
 
     dropPiece: (state) => {
-      const newPosition = movePiece(state.currentPiece, 'down')
+      const newPosition = calculateNewPosition(state.currentPiece, 'down')
 
       if (!checkCollision(state.board, state.currentPiece, newPosition)) {
         state.piecePosition = newPosition

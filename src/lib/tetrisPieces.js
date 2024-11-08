@@ -1,4 +1,4 @@
-const PIECES = {
+export const PIECES = {
   I: [
     [
       [0, 0],

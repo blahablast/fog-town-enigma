@@ -1,39 +1,39 @@
-import { createSlice, createSelector } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+
+const FOG_EFFECTS = {
+  CLEAR: { min: 0, max: 30, visibility: 'clear' },
+  MISTY: { min: 31, max: 60, visibility: 'misty' },
+  DENSE: { min: 61, max: 100, visibility: 'dense' }
+}
+
+const initialState = {
+  level: 50, // Start with a medium fog level
+  visibility: 'misty' // Starting effect visibility
+}
 
 const fogSlice = createSlice({
   name: 'fog',
+  initialState,
   reducers: {
-    setFogLevel: (state, action) => {
-      state.level = Math.max(
-        FOG_LEVELS.MIN,
-        Math.min(FOG_LEVELS.MAX, action.payload)
-      )
-    },
     increaseFog: (state, action) => {
-      state.level = Math.min(FOG_LEVELS.MAX, state.level + action.payload)
+      state.level = Math.min(100, state.level + action.payload)
+      state.visibility = getFogVisibility(state.level)
     },
     decreaseFog: (state, action) => {
-      state.level = Math.max(FOG_LEVELS.MIN, state.level - action.payload)
-    }
+      state.level = Math.max(0, state.level - action.payload)
+      state.visibility = getFogVisibility(state.level)
+    },
+    resetFog: () => initialState
   }
 })
 
-// Export actions
-export const { setFogLevel, increaseFog, decreaseFog } = fogSlice.actions
+// Helper function to determine visibility based on fog level
+function getFogVisibility(fogLevel) {
+  if (fogLevel >= FOG_EFFECTS.DENSE.min) return FOG_EFFECTS.DENSE.visibility
+  if (fogLevel >= FOG_EFFECTS.MISTY.min) return FOG_EFFECTS.MISTY.visibility
+  return FOG_EFFECTS.CLEAR.visibility
+}
 
-// Selector for fog level
-export const selectFogLevel = (state) => state.fog.level
-
-// Selector to get the current fog effect based on fog level
-export const selectCurrentFogEffect = createSelector(
-  selectFogLevel,
-  (fogLevel) => {
-    return (
-      Object.values(FOG_EFFECTS).find(
-        (effect) => fogLevel >= effect.min && fogLevel <= effect.max
-      ) || FOG_EFFECTS.CLEAR
-    )
-  }
-)
-
+// Export actions and reducer
+export const { increaseFog, decreaseFog, resetFog } = fogSlice.actions
 export default fogSlice.reducer
