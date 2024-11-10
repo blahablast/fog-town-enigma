@@ -26,7 +26,7 @@ const boardSlice = createSlice({
 
     movePiece: (state, action) => {
       const direction = action.payload
-      const newPosition = calculateNewPosition(state.currentPiece, direction)
+      const newPosition = calculateNewPosition(state.piecePosition, direction)
 
       if (!checkCollision(state.board, state.currentPiece, newPosition)) {
         state.piecePosition = newPosition
@@ -35,13 +35,13 @@ const boardSlice = createSlice({
 
     rotatePiece: (state) => {
       const rotatedPiece = rotatePieceUtil(state.currentPiece)
-      if (!checkCollision(state.board, state.currentPiece, newPosition)) {
+      if (!checkCollision(state.board, rotatedPiece, state.piecePosition)) {
         state.currentPiece = rotatedPiece
       }
     },
 
     dropPiece: (state) => {
-      const newPosition = calculateNewPosition(state.currentPiece, 'down')
+      const newPosition = calculateNewPosition(state.piecePosition, 'down')
 
       if (!checkCollision(state.board, state.currentPiece, newPosition)) {
         state.piecePosition = newPosition
@@ -54,14 +54,44 @@ const boardSlice = createSlice({
         )
 
         // Clear lines if any are completed and update score
-        const { cleardLines, newBoard } = clearLines(state.board)
+        const { clearedLines, newBoard } = clearLines(state.board)
         state.board = newBoard
-        state.score += clearLines * 100
+        state.score += clearedLines * 100
 
         // Start a new piece
         state.currentPiece = generatePiece()
         state.piecePosition = { x: 4, y: 0 }
       }
+    },
+
+    hardDrop: (state) => {
+      let newPosition = { ...state.piecePosition }
+
+      // Move the piece down until a collision is detected
+      while (
+        !checkCollision(state.board, state.currentPiece, {
+          x: newPosition.x,
+          y: newPosition.y + 1
+        })
+      ) {
+        newPosition.y += 1
+      }
+
+      // Place the piece on the board at the final position
+      state.board = placePieceOnBoard(
+        state.board,
+        state.currentPiece,
+        newPosition
+      )
+
+      // Clear lines if any are completed and update score
+      const { clearedLines, newBoard } = clearLines(state.board)
+      state.board = newBoard
+      state.score += clearedLines * 100
+
+      // start a new piece
+      state.currentPiece = generatePiece()
+      state.piecePosition = { x: 4, y: 0 }
     },
 
     resetBoard: () => initialState
@@ -81,7 +111,13 @@ function placePieceOnBoard(board, piece, position) {
 }
 
 // Export Actions
-export const { startNewPiece, movePiece, rotatePiece, dropPiece, resetBoard } =
-  boardSlice.actions
+export const {
+  startNewPiece,
+  movePiece,
+  rotatePiece,
+  dropPiece,
+  hardDrop,
+  resetBoard
+} = boardSlice.actions
 
 export default boardSlice.reducer

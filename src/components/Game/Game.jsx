@@ -6,8 +6,9 @@ import {
   movePiece,
   rotatePiece,
   dropPiece,
-  startNewPiece
-} from '@/lib/tetrisUtils'
+  startNewPiece,
+  hardDrop
+} from '@/store/slices/boardSlice'
 import styles from './Game.module.css'
 
 export default function Game() {
@@ -21,10 +22,22 @@ export default function Game() {
   // Keydown event listener to handle piece controls
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'ArrowLeft') dispatch(movePiece('left'))
-      if (e.key === 'ArrowRight') dispatch(movePiece('right'))
-      if (e.key === 'ArrowDown') dispatch(dropPiece())
-      if (e.key === 'ArrowUp') dispatch(rotatePiece())
+      if (e.key === 'ArrowLeft') {
+        console.log('Dispatching movePiece left')
+        dispatch(movePiece('left'))
+      }
+      if (e.key === 'ArrowRight') {
+        console.log('Dispatching movePiece right')
+        dispatch(movePiece('right'))
+      }
+      if (e.key === 'ArrowDown') {
+        console.log('Dispatching dropPiece')
+        dispatch(dropPiece())
+      }
+      if (e.key === 'ArrowUp') {
+        console.log('Dispatching rotatePiece')
+        dispatch(hardDrop())
+      }
     }
 
     window.addEventListener('keydown', handleKeyDown)

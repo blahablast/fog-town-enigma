@@ -9,4 +9,46 @@
   grid-template-rows: repeat(20, 1fr);
   grid-template-columns: repeat(10, 1fr);
   gap: 1px;
+  border: 2px solid #333;
+  width: 200px;
+  height: 400px;
+  background-color: #ddd;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+}
+
+.I {
+  background-color: cyan;
+}
+
+.O {
+  background-color: yellow;
+}
+
+.T {
+  background-color: purple;
+}
+
+.L {
+  background-color: orange;
+}
+
+.J {
+  background-color: blue;
+}
+
+.Z {
+  background-color: red;
+}
+
+.S {
+  background-color: green;
 }

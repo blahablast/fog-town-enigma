@@ -61,3 +61,8 @@ export function movePiece(piece, direction) {
   if (direction === 'down') newPosition.y += 1
   return newPosition
 }
+
+// Drop a piece down by one row
+export function dropPiece(piece) {
+  return movePiece(piece, 'down')
+}
