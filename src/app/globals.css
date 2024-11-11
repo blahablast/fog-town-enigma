@@ -1,3 +1,69 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* src/app/globals.css */
+.piece-I {
+  background-color: #00f0f0 !important;
+}
+.piece-O {
+  background-color: #f0f000 !important;
+}
+.piece-T {
+  background-color: #a000f0 !important;
+}
+.piece-S {
+  background-color: #00f000 !important;
+}
+.piece-Z {
+  background-color: #f00000 !important;
+}
+.piece-J {
+  background-color: #0000f0 !important;
+}
+.piece-L {
+  background-color: #f0a000 !important;
+}
+
+.tetris-cell {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Optional: Add some hover effects for better visual feedback */
+.tetris-cell:hover {
+  opacity: 0.9;
+}
+
+/* Optional: Add some animation for when pieces lock in place */
+@keyframes lockPiece {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.piece-locked {
+  animation: lockPiece 0.1s ease;
+}

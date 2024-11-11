@@ -1,4 +1,4 @@
-import Providers from '../components/Providers'
+import { Providers } from '@/store/Providers'
 import './globals.css'
 
 export default function RootLayout({ children }) {
