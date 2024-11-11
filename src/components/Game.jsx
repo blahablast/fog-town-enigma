@@ -1,5 +1,4 @@
 'use client'
-
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -18,7 +17,6 @@ const Game = () => {
   const score = useSelector((state) => state.game.score)
 
   useEffect(() => {
-    console.log('Starting game')
     dispatch(startGame())
   }, [dispatch])
 
@@ -42,7 +40,7 @@ const Game = () => {
 
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     const gameLoop = setInterval(() => {
@@ -52,35 +50,34 @@ const Game = () => {
     }, TICK_SPEED)
 
     return () => clearInterval(gameLoop)
-  }, [gameOver])
+  }, [gameOver, dispatch])
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
-      <div className="space-y-4">
-        <div className="text-center mb-4">
-          <h1 className="text-4xl font-bold mb-2">Tetris</h1>
-          <p className="text-xl">Score: {score}</p>
-        </div>
-        <div className="border-4 border-gray-700 p-1 bg-gray-800">
-          <Board />
-        </div>
-        {gameOver && (
-          <div className="text-center">
-            <p className="text-xl mb-4">Game Over!</p>
-            <button
-              className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded"
-              onClick={() => dispatch(startGame())}
-            >
-              New Game
-            </button>
-          </div>
-        )}
-        {!gameOver && (
-          <div className="text-center text-sm text-gray-400">
-            <p>Use arrow keys to move and rotate</p>
-          </div>
-        )}
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center p-4">
+      <h1 className="text-6xl font-bold mb-4 text-blue-400">TETRIS</h1>
+      <p className="text-2xl text-blue-400 mb-8">Score: {score}</p>
+
+      <div className="border-4 border-gray-700 p-1 bg-gray-800">
+        <Board />
       </div>
+
+      {gameOver && (
+        <div className="text-center mt-8">
+          <p className="text-3xl font-bold text-red-500 mb-4">Game Over!</p>
+          <button
+            className="bg-blue-500 hover:bg-blue-600 px-8 py-3 rounded-lg text-xl font-bold transition-all"
+            onClick={() => dispatch(startGame())}
+          >
+            New Game
+          </button>
+        </div>
+      )}
+
+      {!gameOver && (
+        <div className="text-center mt-4 text-gray-400">
+          <p>Use arrow keys to move and rotate</p>
+        </div>
+      )}
     </div>
   )
 }

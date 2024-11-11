@@ -20,50 +20,94 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* src/app/globals.css */
-.piece-I {
-  background-color: #00f0f0 !important;
-}
-.piece-O {
-  background-color: #f0f000 !important;
-}
-.piece-T {
-  background-color: #a000f0 !important;
-}
-.piece-S {
-  background-color: #00f000 !important;
-}
-.piece-Z {
-  background-color: #f00000 !important;
-}
-.piece-J {
-  background-color: #0000f0 !important;
-}
-.piece-L {
-  background-color: #f0a000 !important;
-}
-
 .tetris-cell {
   width: 30px;
   height: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.02);
 }
 
-/* Optional: Add some hover effects for better visual feedback */
-.tetris-cell:hover {
-  opacity: 0.9;
+.tetris-cell:empty {
+  border-color: rgba(255, 255, 255, 0.01); /* Even dimmer for empty cells */
+  background-color: #111; /* Dark background for empty cells */
 }
 
-/* Optional: Add some animation for when pieces lock in place */
-@keyframes lockPiece {
-  0% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
+.cell-inner {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
 }
 
-.piece-locked {
-  animation: lockPiece 0.1s ease;
+.piece-I .cell-inner {
+  background-color: #00f0f0;
+  border-top-color: #60ffff;
+  border-left-color: #60ffff;
+  border-right-color: #00a0a0;
+  border-bottom-color: #00a0a0;
+}
+
+.piece-O .cell-inner {
+  background-color: #f0f000;
+  border-top-color: #ffff60;
+  border-left-color: #ffff60;
+  border-right-color: #a0a000;
+  border-bottom-color: #a0a000;
+}
+
+.piece-T .cell-inner {
+  background-color: #a000f0;
+  border-top-color: #d060ff;
+  border-left-color: #d060ff;
+  border-right-color: #6000a0;
+  border-bottom-color: #6000a0;
+}
+
+.piece-S .cell-inner {
+  background-color: #00f000;
+  border-top-color: #60ff60;
+  border-left-color: #60ff60;
+  border-right-color: #00a000;
+  border-bottom-color: #00a000;
+}
+
+.piece-Z .cell-inner {
+  background-color: #f00000;
+  border-top-color: #ff6060;
+  border-left-color: #ff6060;
+  border-right-color: #a00000;
+  border-bottom-color: #a00000;
+}
+
+.piece-J .cell-inner {
+  background-color: #0000f0;
+  border-top-color: #6060ff;
+  border-left-color: #6060ff;
+  border-right-color: #0000a0;
+  border-bottom-color: #0000a0;
+}
+
+.piece-L .cell-inner {
+  background-color: #f0a000;
+  border-top-color: #ffd060;
+  border-left-color: #ffd060;
+  border-right-color: #a06000;
+  border-bottom-color: #a06000;
+}
+
+/* Board styles */
+.board-grid {
+  background-color: #0a0a0a;
+  border: 2px solid #1a1a1a;
+  padding: 1px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.empty-cell {
+  border: 1px solid rgba(255, 255, 255, 0.02);
+  background-color: #111;
 }

@@ -1,5 +1,4 @@
 'use client'
-
 import { useSelector } from 'react-redux'
 import { BOARD_WIDTH, BOARD_HEIGHT } from '@/constants/tetris'
 import Cell from './Cell'
@@ -13,18 +12,11 @@ const Board = () => {
     const displayBoard = board.map((row) => [...row])
 
     if (currentPiece) {
-      console.log(
-        'Rendering piece:',
-        currentPiece,
-        'at position:',
-        currentPosition
-      )
       currentPiece.shape.forEach((row, y) => {
         row.forEach((cell, x) => {
           if (cell) {
             const boardY = currentPosition.y + y
             const boardX = currentPosition.x + x
-            console.log('Attempting to place cell at:', boardX, boardY)
             if (
               boardY >= 0 &&
               boardY < BOARD_HEIGHT &&
@@ -42,7 +34,7 @@ const Board = () => {
   }
 
   return (
-    <div className="grid gap-0">
+    <div className="board-grid">
       {getDisplayBoard().map((row, y) => (
         <div key={y} className="flex">
           {row.map((cell, x) => (
